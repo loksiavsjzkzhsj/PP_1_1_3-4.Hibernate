@@ -23,8 +23,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
 
     public void createUsersTable() {
-        Connection connection = getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USERS_TABLE)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USERS_TABLE)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -71,10 +70,8 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     public List<User> getAllUsers() {
 
         List<User> listUsers = new ArrayList<>();
-        Statement statement;
-        try  {
-            Connection connection = getConnection();
-             statement = connection.createStatement();
+        try (Connection connection = getConnection(); Statement statement = connection.createStatement() ) {
+
             ResultSet resultSet = statement.executeQuery(GET_ALL_USERS);
             while (resultSet.next()) {
                 User user = new User();
@@ -91,8 +88,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     }
 
     public void cleanUsersTable() {
-       Connection connection = getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ALL_USER)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ALL_USER)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage() + "Table is not found");
