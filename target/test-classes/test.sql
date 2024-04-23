@@ -1,1 +1,0 @@
-INSERT INTO user (name, last_name, age) VALUES('Bob', 'Shell', 99)
