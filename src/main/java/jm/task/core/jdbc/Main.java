@@ -20,7 +20,7 @@ public class Main{
         userService.saveUser("Vladislav", "Danilov", (byte) 30);
         userService.saveUser("Viktoria", "Danilova", (byte) 25);
         userService.saveUser("Naruto", "Uzumaki", (byte) 18);
-        userService.saveUser("James", "Gordon", (byte) 54);
+        userService.saveUser("Sasuke", "Uchiha", (byte) 54);
         List<User> users = userService.getAllUsers();
         for (User user : users) {
             System.out.println(user);
