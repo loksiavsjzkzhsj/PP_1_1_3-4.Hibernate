@@ -6,6 +6,7 @@ import jm.task.core.jdbc.util.Util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.*;
 
 public class UserDaoJDBCImpl extends Util implements UserDao {
     private final static String CREATE_USERS_TABLE = "CREATE TABLE USER (Id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(25), last_name VARCHAR(25), age INT)";
@@ -14,6 +15,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     private final static String REMOVE_USER_BY_ID = "DELETE FROM USER WHERE id = ?";
     private final static String GET_ALL_USERS = "SELECT * FROM USER";
     private final static String DROP_TABLE = "DROP TABLE IF EXISTS USER";
+    private static final Logger LOGGER = Logger.getLogger(UserDaoJDBCImpl.class.getName());
     private static long ID = 1;
 
 
@@ -26,16 +28,15 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USERS_TABLE)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            LOGGER.log(Level.INFO, e.getMessage());
         }
-
     }
 
     public void dropUsersTable() {
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DROP_TABLE)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.INFO, e.getMessage());
         }
     }
 
@@ -54,7 +55,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             System.out.println("User с именем - " + user.getName() + " добавлен в базу данных!");
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage() + " " + e.getErrorCode());
+            LOGGER.log(Level.INFO, e.getMessage());
         }
     }
 
@@ -63,7 +64,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            LOGGER.log(Level.INFO, e.getMessage());
         }
     }
 
@@ -82,7 +83,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
                 listUsers.add(user);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            LOGGER.log(Level.INFO, e.getMessage());
         }
         return listUsers;
     }
@@ -91,8 +92,12 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ALL_USER)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage() + "Table is not found");
+            LOGGER.log(Level.INFO, e.getMessage());
         }
 
     }
+
+
 }
+
+
